@@ -134,35 +134,45 @@
       }
     };
 
+    let lastFinalTranscript = ''; // 最後に確定したテキストを保存する変数
+
     recognition.onresult = function (event) {
+      let interimTranscript = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
+        const transcript = event.results[i][0].transcript;
         if (event.results[i].isFinal) {
-          const transcript = event.results[i][0].transcript;
-          if (transcript.trim()) {
+          // 最終結果が前回と異なり、かつ空でない場合のみ処理
+          if (transcript.trim() && transcript !== lastFinalTranscript) {
+            lastFinalTranscript = transcript; // 今回の結果を保存
+
             // ピンインに変換
             const pinyin = pinyinUtil.getPinyin(transcript, ' ', true, true, true);
 
             // 表示用の要素を作成
             const resultItem = document.createElement('div');
             resultItem.className = 'result-item';
-
+ 
             const chineseP = document.createElement('p');
             chineseP.className = 'chinese';
             chineseP.textContent = transcript;
-
+ 
             const pinyinP = document.createElement('p');
             pinyinP.className = 'pinyin';
             pinyinP.textContent = pinyin;
-
+ 
             resultItem.appendChild(chineseP);
             resultItem.appendChild(pinyinP);
-            resultDiv.appendChild(resultItem);
+            // 新しい結果を一番上に表示
+            resultDiv.prepend(resultItem);
           }
+          // 途中結果表示をクリア
           progressTextarea.value = '';
+          interimTranscript = '';
         } else {
-          progressTextarea.value = event.results[i][0].transcript;
+          interimTranscript += transcript;
         }
       }
+      progressTextarea.value = interimTranscript;
     }
   } else {
     document.body.innerHTML = "<h2>お使いのブラウザはWeb Speech APIに対応していません。Google Chromeをお試しください。</h2>";
