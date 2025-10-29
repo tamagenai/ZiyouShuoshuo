@@ -11,12 +11,13 @@
     body {
       font-family: 'M PLUS Rounded 1c', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       padding: 1em;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
       background-attachment: fixed;
       position: relative;
       color: #333;
       margin: 0;
+      background-repeat: no-repeat;
     }
 
     /* 背景画像を薄くするためのオーバーレイ */
@@ -193,11 +194,11 @@
   // --- ★デザイン変更：背景画像をランダムに設定 ---
   document.addEventListener('DOMContentLoaded', function() {
     const pandas = [
-      'https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?q=80&w=2072&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1527118732049-c88155f2107c?q=80&w=1887&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1559703248-dca719707d39?q=80&w=1887&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1589932838497-28b368a454c7?q=80&w=1887&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1570288685280-7802a8f8c4fa?q=80&w=1887&auto=format&fit=crop'
+      'images/パンダ1.png',
+      'images/パンダ2.png',
+      'images/パンダ3.png',
+      'images/パンダ4.png',
+      'images/パンダ5.png'
     ];
     const randomIndex = Math.floor(Math.random() * pandas.length);
     document.body.style.backgroundImage = `url('${pandas[randomIndex]}')`;
